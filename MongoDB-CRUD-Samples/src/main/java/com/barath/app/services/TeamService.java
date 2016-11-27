@@ -1,5 +1,7 @@
 package com.barath.app.services;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.barath.app.model.Team;
@@ -44,6 +46,10 @@ public class TeamService {
 	
 	public boolean deleteTeamByName( String teamName){
 		return this.teamRepository.deleteTeamByName(teamName);
+	}
+	
+	public Set<Team> findAllTeams(){
+		return this.teamRepository.findAllTeams();
 	}
 
 }

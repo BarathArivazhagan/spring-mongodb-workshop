@@ -1,14 +1,11 @@
 package com.barath.app.services;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.barath.app.model.Player;
+
 import com.barath.app.repositories.PlayerRepository;
 
 
@@ -24,27 +21,35 @@ public class PlayerService {
 	
 	
 
-	
 	public Player addPlayer(Player player){
-		
+		return this.playerRepository.addPlayer(player);
 	}
 	
 	
 	public Player readPlayer(long playerId){
-		
+		return this.playerRepository.readPlayer(playerId);
 	}
 	
 	public Player readPlayerByName(String playerName){
-		
+		return this.playerRepository.readPlayerByName(playerName);
 	}
 	
 	
 	public Player updatePlayer(Player player){
-		
+		return this.playerRepository.updatePlayer(player);
 	}
 	
 	
-	public Player deletePlayer( long playerId){
-	
+	public boolean deletePlayer( long playerId){
+		return this.playerRepository.deletePlayer(playerId);
 	}
+	
+	public boolean deletePlayerByName( String playerName){
+		return this.playerRepository.deletePlayerByName(playerName);
+	}
+	
+	public Set<Player> findAllPlayers(){	
+		return this.playerRepository.findAllPlayers();
+	}
+
 }
