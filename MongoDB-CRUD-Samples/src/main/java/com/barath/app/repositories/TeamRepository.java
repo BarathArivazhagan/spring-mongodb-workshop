@@ -1,5 +1,8 @@
 package com.barath.app.repositories;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+
+import com.barath.app.model.Player;
 import com.barath.app.model.Team;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
@@ -23,6 +28,7 @@ public class TeamRepository {
 	private static final String TEAM_COLLECTION_NAME="TEAM";
 	private static final String TEAM_ID="TEAMID";
 	private static final String TEAM_NAME="TEAMNAME";
+	private static final String DEFAULT_DATABASE_NAME="test";
 	
 	private MongoClient mongoClient;	
 	private MongoDatabase database;
@@ -35,7 +41,9 @@ public class TeamRepository {
 	@Autowired
 	public TeamRepository(MongoClient mongoClient){
 		this.mongoClient=mongoClient;
-		this.database=this.mongoClient.getDatabase(databaseName);
+		logger.info("Database name"+databaseName);
+		this.databaseName= this.databaseName ==null? DEFAULT_DATABASE_NAME: this.databaseName;
+		this.database=this.mongoClient.getDatabase(this.databaseName);
 		this.collection=this.database.getCollection(TEAM_COLLECTION_NAME);
 		if(this.collection ==null ){
 			this.database.createCollection(TEAM_COLLECTION_NAME);
@@ -108,6 +116,19 @@ public class TeamRepository {
 		}
 			
 		return false;
+	}
+	
+	public Set<Team> findAllTeams(){		
+		FindIterable<Document> documents=this.collection.find();
+		Set<Team> teams=new HashSet<Team>();
+		if(documents != null){
+			documents.forEach((Document document)->{
+				teams.add(convertDocumentToTeam(document));
+			});
+			teams.stream().forEach(System.out::println);
+		}
+		
+		return teams;
 	}
 	
 	
