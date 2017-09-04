@@ -13,8 +13,9 @@ public class Customer {
 
     private String firstName;
 
-
     private String lastName;
+
+    private int age;
 
     public Long getCustomerId() {
         return customerId;
@@ -40,10 +41,19 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public Customer(Long customerId, String firstName, String lastName) {
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Customer(Long customerId, String firstName, String lastName,int age) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age=age;
     }
 
     public Customer() {
