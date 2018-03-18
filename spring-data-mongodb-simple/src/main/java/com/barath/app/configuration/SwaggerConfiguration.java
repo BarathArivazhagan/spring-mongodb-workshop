@@ -15,19 +15,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-
+    private static final String SWAGGER_PACKAGES="com.barath.app";
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.barath.app"))
+                .apis(RequestHandlerSelectors.basePackage(SWAGGER_PACKAGES))
                 .paths(PathSelectors.any())
                 .build();
     }
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Inventory API")
-                .description("Inventory API reference for developers")
+        return new ApiInfoBuilder().title("Customer API")
+                .description("Customer API reference for developers")
                 .license("OPENSOURCE  API License")
                 .version("1.0").build();
     }

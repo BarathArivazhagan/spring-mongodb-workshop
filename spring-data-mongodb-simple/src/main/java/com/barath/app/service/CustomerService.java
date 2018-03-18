@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
@@ -61,6 +62,12 @@ public class CustomerService {
     public boolean isCustomerExists(Customer customer){
 
         return this.customerRepo.findByFirstName(customer.getFirstName()) !=null ? true:  false;
+    }
+
+    @PostConstruct
+    public void init(){
+
+        this.saveCustomer(new Customer(1L,"Barath","Arivazhagan",25));
     }
 
 }
