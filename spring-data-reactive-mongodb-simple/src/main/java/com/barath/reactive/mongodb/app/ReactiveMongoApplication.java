@@ -1,23 +1,15 @@
 package com.barath.reactive.mongodb.app;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
-import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -80,32 +72,16 @@ public class ReactiveMongoApplication {
 				, Mono.just(new User("rohit"))
 				, Mono.just(new User("bumrah"))
 				, Mono.just(new User("rahanae")))
-				.subscribe(this.userService::addUser);
+				.doOnNext( userMono -> this.userService.addUser(userMono).subscribe()).subscribe();
 
-		this.userService.addUser(Mono.just(new User("barath")));
 	}
 }
 
-@Configuration
-@EnableReactiveMongoRepositories(basePackageClasses = {UserRepository.class})
-class MongoConfiguration extends AbstractReactiveMongoConfiguration{
+interface UserRepository extends ReactiveMongoRepository<User,String> {
 
-	@Override
-	public MongoClient reactiveMongoClient() {
-		return MongoClients.create();
-	}
+	Flux<User> findByUserName(Mono<String> userName);
 
-	@Override
-	protected String getDatabaseName() {
-		return "test";
-	}
-	@Bean
-	public ReactiveMongoTemplate reactiveMongoTemplate() {
-		return new ReactiveMongoTemplate(reactiveMongoClient(), getDatabaseName());
-	}
 }
-
-
 
 
 @Service
@@ -149,13 +125,13 @@ class UserService{
 }
 
 @Document
-//@JsonIgnoreProperties(ignoreUnknown = true)
 class User{
 
 	@Id
 	@JsonIgnore
 	private String id;
 
+	@Indexed(unique = true)
 	private String userName;
 
 

@@ -3,7 +3,7 @@ spring:
     name: reactive-mongodb-service
   data:
     mongodb:
-       port: 27017
+       port: 27018 # using different port for embedded mongodb server
        host: localhost
        database: test
 
