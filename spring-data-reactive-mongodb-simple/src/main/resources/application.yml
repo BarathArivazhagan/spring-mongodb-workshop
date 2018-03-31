@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: football-microservice
+
+
+server:
+  port: 9100
+
+logging:
+  level:
+     org:
+      springframework:
+        data:
+          mongodb:
+             core: DEBUG
