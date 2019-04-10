@@ -1,5 +1,4 @@
-Spring MongoDB Samples
+#### spring-mongodb-workshop
 
-This project contains Spring Data MongoDB using MongoRepository and MongoTemplate samples 
+This project contains spring data MongoDB using MongoRepository and MongoTemplate patterns. 
 
-Adding the samples for MongoDB Aggregation techniques
