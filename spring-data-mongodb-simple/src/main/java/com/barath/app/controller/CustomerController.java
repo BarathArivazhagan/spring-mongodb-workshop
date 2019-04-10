@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CustomerController {
 
     private static final Logger logger= LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService){
 
@@ -26,7 +26,7 @@ public class CustomerController {
 
     }
 
-    @PostMapping(value = "/create",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value="/customer",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Customer createSCustomer(@RequestBody Customer customer) throws Exception {
 
        Optional<Customer>   cust= Optional.ofNullable(Optional.ofNullable(customer).orElseThrow(() -> new Exception("Customer cannot be saved")));
@@ -36,7 +36,7 @@ public class CustomerController {
        return cust.get();
     }
 
-    @GetMapping(value="/get/{customerName}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value="/customer/{customerName}")
     public Customer getCustomerByFirstName(@PathVariable String customerName){
 
         if(!StringUtils.isEmpty(customerName)){
@@ -46,7 +46,7 @@ public class CustomerController {
 
     }
 
-    @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/customers",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Customer> getCustomers(){
 
         return customerService.getCustomers();

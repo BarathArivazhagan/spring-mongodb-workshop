@@ -1,23 +1,24 @@
 package com.barath.app.service;
 
-import com.barath.app.document.Customer;
-import com.barath.app.exception.CustomerAlreadyExistsException;
-import com.barath.app.exception.CustomerNotFoundException;
-import com.barath.app.repository.CustomerRepository;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.lang.invoke.MethodHandles;
-import java.util.List;
+import com.barath.app.document.Customer;
+import com.barath.app.exception.CustomerNotFoundException;
+import com.barath.app.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
 
     private static final Logger logger= LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private CustomerRepository customerRepo;
+    private final CustomerRepository customerRepo;
 
     public CustomerService(CustomerRepository customerRepository){
         this.customerRepo=customerRepository;
@@ -28,10 +29,6 @@ public class CustomerService {
 
         if(logger.isInfoEnabled()){
             logger.info("Saving the customer with customer details {}",customer.toString());
-        }
-        if(isCustomerExists(customer)){
-            throw new CustomerAlreadyExistsException("Customer Already Exists with Name");
-
         }
         return this.customerRepo.save(customer);
 

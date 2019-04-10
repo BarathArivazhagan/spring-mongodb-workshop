@@ -58,4 +58,12 @@ public class Customer {
 
     public Customer() {
     }
+
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", firstName=" + firstName + ", lastName=" + lastName + ", age="
+				+ age + "]";
+	}
+    
+    
 }
