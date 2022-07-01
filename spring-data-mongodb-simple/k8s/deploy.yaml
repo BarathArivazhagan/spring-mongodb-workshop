@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-microservice
+  name: demo-microservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-microservice
+  template:
+    metadata:
+       labels:
+        app: demo-microservice
+    spec:
+      containers:
+      - image: barathece91/demo-mongodb:v1 
+        imagePullPolicy: Always
+        name: demo-microservice
+        env:
+        - name: SPRING_DATA_MONGODB_HOST
+          value: mongodb.user-barath.svc.cluster.local
+        - name: SPRING_DATA_MONGODB_PORT
+          value: 27017
+        resources:
+          requests:
+            memory: 700Mi
+            cpu: 100m
+          limits:
+            memory: 700Mi
+            cpu: 1           
+        ports:
+        - containerPort: 9000
+          protocol: TCP
