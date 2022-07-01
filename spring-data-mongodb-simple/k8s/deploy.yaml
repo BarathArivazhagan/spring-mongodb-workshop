@@ -22,7 +22,7 @@ spec:
         - name: SPRING_DATA_MONGODB_HOST
           value: mongodb.user-barath.svc.cluster.local
         - name: SPRING_DATA_MONGODB_PORT
-          value: 27017
+          value: "27017"
         resources:
           requests:
             memory: 700Mi
